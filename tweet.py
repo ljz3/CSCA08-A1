@@ -29,10 +29,9 @@ def is_valid_tweet(text: str) -> bool:
     False
     >>> is_valid_tweet(2 * 'ABCDEFGHIJKLMNOPQRSTUVWXYZ')
     False
-
     """
 
-    return len(text) >= 1 and len(text) <= 280
+    return len(text) >= 1 and len(text) <= MAX_TWEET_LENGTH
 
 
 def compare_tweet_lengths(first_tweet, second_tweet) -> int:
@@ -55,6 +54,47 @@ def compare_tweet_lengths(first_tweet, second_tweet) -> int:
     else:
         return 0
 
+
+
+def add_hashtag(tweet: str, tweet_word: str) -> str:
+    """
+
+    """
+    if(MAX_TWEET_LENGTH>14):
+        return tweet + " " + HASHTAG_SYMBOL + tweet_word
+    else:
+        return tweet
+
+
+def contains_hashtag(tweet: str, tag: str) -> bool:
+    """
+    """
+
+    pass
+
+
+def is_mentioned(tweet: str, mentioned: str) -> bool:
+    """
+    """
+    pass
+
+
+def add_mention_exclusive(tweet: str, mention: str) -> str:
+    """
+    """
+    pass
+
+
+def num_tweets_required(tweet: str) -> int:
+    """
+    """
+    pass
+
+
+def get_nth_tweet(tweet: str, tweet_num: int) -> str:
+    """
+    """
+    pass
 
 
 # A helper function.  Do not modify this function, but you are welcome
