@@ -51,8 +51,7 @@ def compare_tweet_lengths(first_tweet, second_tweet) -> int:
         return 1
     elif(len(first_tweet) < len(second_tweet)):
         return -1
-    else:
-        return 0
+    return 0
 
 
 
@@ -69,33 +68,52 @@ def add_hashtag(tweet: str, tweet_word: str) -> str:
 def contains_hashtag(tweet: str, tag: str) -> bool:
     """
     """
+    return contains(tweet, tag, HASHTAG_SYMBOL)
 
-    pass
+
 
 
 def is_mentioned(tweet: str, mentioned: str) -> bool:
     """
     """
-    pass
+
+    return contains(tweet, mentioned, MENTION_SYMBOL)
+
 
 
 def add_mention_exclusive(tweet: str, mention: str) -> str:
     """
     """
-    pass
+    if not is_mentioned(tweet, mention):
+        return tweet + " " + MENTION_SYMBOL + mention
+    else:
+        return tweet
 
 
 def num_tweets_required(tweet: str) -> int:
     """
     """
-    pass
+    return math.ceil(len(tweet)/MAX_TWEET_LENGTH)
 
 
 def get_nth_tweet(tweet: str, tweet_num: int) -> str:
     """
     """
-    pass
+    if tweet_num <= num_tweets_required(tweet)-1:
+        return tweet[tweet_num * MAX_TWEET_LENGTH : (tweet_num+1) * MAX_TWEET_LENGTH]
+    else:
+        return ""
 
+
+# Helper function
+def contains(tweet: str, sub: str, symbol: str) -> bool:
+    """
+    """
+    if symbol in sub:
+        return (sub + " ") in (clean(tweet) + " ")
+    else:
+        return (symbol + sub + " ") in (clean(tweet) + " ")
+    
 
 # A helper function.  Do not modify this function, but you are welcome
 # to call it.
@@ -124,5 +142,8 @@ def clean(text: str) -> str:
     return clean_str
 
 
-tweet = input("tweet: \n")
-print(is_valid_tweet(tweet))
+print(clean("I like #cscA08"))
+tweet = "The first parameter represents a message that a Twitter user would like to post, and the second parameter, n, represents an integer greater than or equal to 0. If the message contains too many characters, it would need to be split up into a sequence of tweets. All of the tweets in the sequence, except possibly the last tweet, would be of length MAX_TWEET_LENGTH. This function should return the nth valid tweet in the sequence of tweets."
+print(len(tweet))
+print(num_tweets_required(tweet))
+print(get_nth_tweet(tweet,8))
