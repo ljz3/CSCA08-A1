@@ -34,7 +34,7 @@ def is_valid_tweet(text: str) -> bool:
     return len(text) >= 1 and len(text) <= MAX_TWEET_LENGTH
 
 
-def compare_tweet_lengths(first_tweet, second_tweet) -> int:
+def compare_tweet_lengths(first_tweet: str, second_tweet: str) -> int:
     """ Return 1 if first_tweet is longer than second_tweet,
     return -1 if second_tweet is longer than first_tweet,
     return 0 if first_tweet and second_tweet are the same length.
@@ -57,9 +57,20 @@ def compare_tweet_lengths(first_tweet, second_tweet) -> int:
 
 def add_hashtag(tweet: str, tweet_word: str) -> str:
     """
+    Return tweet concatinated with HASHTAG_SYMBOL and tweet_word
+    if MAX_TWEET_LENGTH is at least 14.
 
+    Preconditions: 
+    tweet is a valid tweet.
+    tweet_word is a valid tweet word.
+
+    >>> add_hashtag('I like', 'cscA08')
+    'I like #cscA08'
+    >>> add_hashtag("You will need to paraphrase", "compsci")
+    "You will need to paraphrase #compsci"
     """
-    if(MAX_TWEET_LENGTH>14):
+
+    if(MAX_TWEET_LENGTH >= 14):
         return tweet + " " + HASHTAG_SYMBOL + tweet_word
     else:
         return tweet
@@ -67,14 +78,37 @@ def add_hashtag(tweet: str, tweet_word: str) -> str:
 
 def contains_hashtag(tweet: str, tag: str) -> bool:
     """
+    Return True iff tweet contains a hashtag
+    made up of HASHTAG_SYMBOL and the tag.
+    Return False otherwise.
+
+    Preconditions: 
+    tweet is a valid tweet.
+    tag is a valid tweet word.
+
+    >>> contains_hashtag('I like #cscA08', 'cscA08')
+    True
+    >>> contains_hashtag('I like #cscA08', 'csc')
+    False
     """
+
     return contains(tweet, tag, HASHTAG_SYMBOL)
-
-
 
 
 def is_mentioned(tweet: str, mentioned: str) -> bool:
     """
+    Return True iff tweet contains a mention
+    made up of MENTION_SYMBOL and mentioned.
+    Return False otherwise.
+
+    Preconditions: 
+    tweet is a valid tweet.
+    mentioned is a valid tweet word.
+
+    >>> is_mentioned('Go @Raptors!', 'Raptors')
+    True
+    >>> contains_hashtag('Good morning @Kevin', 'Kev')
+    False
     """
 
     return contains(tweet, mentioned, MENTION_SYMBOL)
@@ -83,7 +117,19 @@ def is_mentioned(tweet: str, mentioned: str) -> bool:
 
 def add_mention_exclusive(tweet: str, mention: str) -> str:
     """
+    Return tweet concatinated with a space, MENTION_SYMBOL and mention
+    iff mention was not already mentioned in tweet.
+
+    Preconditions: 
+    tweet is a valid tweet.
+    mention is a valid tweet word.
+
+    >>> add_mention_exclusive("Go Raptors!", "Raptors)
+    "Go Raptors! @Raptors"
+    >>> add_mention_exclusive("Go @Raptors!")
+    "Go @Raptors!"
     """
+
     if not is_mentioned(tweet, mention):
         return tweet + " " + MENTION_SYMBOL + mention
     else:
@@ -92,23 +138,47 @@ def add_mention_exclusive(tweet: str, mention: str) -> str:
 
 def num_tweets_required(tweet: str) -> int:
     """
+    Return the minimum number of tweets that would be 
+    required to communicate tweet.
+
+    >>> num_tweets_required("I told my girlfriend she" 
+    "drew her eyebrows too high. She seemed surprised.")
+    2
+    >>> num_tweets_required("Why is Peter Pan always flying? He neverlands.")
+    1
     """
+
     return math.ceil(len(tweet)/MAX_TWEET_LENGTH)
 
 
 def get_nth_tweet(tweet: str, tweet_num: int) -> str:
     """
+    Return tweet split up into tweets of length MAX_TWEET_LENGTH
+    at index tweet_num.
+
+    >>> get_nth_tweet("I told my girlfriend she" 
+    "drew her eyebrows too high. She seemed surprised.", 0)
+    "I told my girlfriend shedrew her eyebrows too high"
+    >>> get_nth_tweet("Woof woof!", 2)
+    ""
     """
-    if tweet_num <= num_tweets_required(tweet)-1:
-        return tweet[tweet_num * MAX_TWEET_LENGTH : (tweet_num+1) * MAX_TWEET_LENGTH]
-    else:
-        return ""
+
+    return tweet[tweet_num * MAX_TWEET_LENGTH:(tweet_num+1) * MAX_TWEET_LENGTH]
 
 
-# Helper function
-def contains(tweet: str, sub: str, symbol: str) -> bool:
+# Helper Function
+def contains(tweet: str, sub: str, symbol: str) -> str:
     """
+    Return tweet concatinated with symbol and sub 
+    if symbol is not already in sub.
+    Return tweet concatinated with sub otherwise.
+
+    >>> contains("Hello!", @Kevin, "@")
+    "Hello! @Kevin"
+    >>> contains("Good morning!", Kevin, "@")
+    "Good morning! @Kevin"
     """
+    
     if symbol in sub:
         return (sub + " ") in (clean(tweet) + " ")
     else:
@@ -140,10 +210,3 @@ def clean(text: str) -> str:
         else:
             clean_str = clean_str + SPACE
     return clean_str
-
-
-print(clean("I like #cscA08"))
-tweet = "The first parameter represents a message that a Twitter user would like to post, and the second parameter, n, represents an integer greater than or equal to 0. If the message contains too many characters, it would need to be split up into a sequence of tweets. All of the tweets in the sequence, except possibly the last tweet, would be of length MAX_TWEET_LENGTH. This function should return the nth valid tweet in the sequence of tweets."
-print(len(tweet))
-print(num_tweets_required(tweet))
-print(get_nth_tweet(tweet,8))
