@@ -20,7 +20,8 @@ SPACE = ' '
 
 
 def is_valid_tweet(text: str) -> bool:
-    """Return True if and only if text contains between 1 and
+    """
+    Return True if and only if text contains between 1 and
     MAX_TWEET_LENGTH characters (inclusive).
 
     >>> is_valid_tweet('Hello Twitter!')
@@ -35,7 +36,8 @@ def is_valid_tweet(text: str) -> bool:
 
 
 def compare_tweet_lengths(first_tweet: str, second_tweet: str) -> int:
-    """ Return 1 if first_tweet is longer than second_tweet,
+    """ 
+    Return 1 if first_tweet is longer than second_tweet,
     return -1 if second_tweet is longer than first_tweet,
     return 0 if first_tweet and second_tweet are the same length.
 
@@ -58,7 +60,7 @@ def compare_tweet_lengths(first_tweet: str, second_tweet: str) -> int:
 def add_hashtag(tweet: str, tweet_word: str) -> str:
     """
     Return tweet concatinated with HASHTAG_SYMBOL and tweet_word
-    if MAX_TWEET_LENGTH is at least 14.
+    if the potential tweet is a valid tweet.
 
     Preconditions: 
     tweet is a valid tweet.
@@ -70,10 +72,9 @@ def add_hashtag(tweet: str, tweet_word: str) -> str:
     "You will need to paraphrase #compsci"
     """
 
-    if(MAX_TWEET_LENGTH >= 14):
-        return add_tag(tweet, tweet_word, HASHTAG_SYMBOL)
-    else:
-        return tweet
+
+    return add_tag(tweet, tweet_word, HASHTAG_SYMBOL)
+
 
 
 def contains_hashtag(tweet: str, tag: str) -> bool:
@@ -186,13 +187,19 @@ def contains(tweet: str, sub: str, symbol: str) -> bool:
 def add_tag(tweet: str, tag: str, symbol: str) -> str:
     """
     Return tweet concatinated with a space, tag and symbol
+    if the potential tweet is a valid tweet otherwise return tweet.
 
     >>> add_tag("Hello!", "Kevin", "@")
     "Hello! @Kevin"
     >>> add_tag("Today is Friday!", "UTSC", "#")
     "Today is Friday! #UTSC"
     """
-    return tweet + " " + symbol + tag
+
+    if(is_valid_tweet(tweet + " " + symbol + tag)):
+        return tweet + " " + symbol + tag
+    else:
+        return tweet
+
 
 
 # A helper function.  Do not modify this function, but you are welcome
