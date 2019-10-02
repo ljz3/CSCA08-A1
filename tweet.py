@@ -56,7 +56,6 @@ def compare_tweet_lengths(first_tweet: str, second_tweet: str) -> int:
     return 0
 
 
-
 def add_hashtag(tweet: str, tweet_word: str) -> str:
     """
     Return tweet concatinated with HASHTAG_SYMBOL and tweet_word
@@ -72,9 +71,7 @@ def add_hashtag(tweet: str, tweet_word: str) -> str:
     "You will need to paraphrase #compsci"
     """
 
-
     return add_tag(tweet, tweet_word, HASHTAG_SYMBOL)
-
 
 
 def contains_hashtag(tweet: str, tag: str) -> bool:
@@ -113,7 +110,6 @@ def is_mentioned(tweet: str, mentioned: str) -> bool:
     """
 
     return contains(tweet, mentioned, MENTION_SYMBOL)
-
 
 
 def add_mention_exclusive(tweet: str, mention: str) -> str:
@@ -181,9 +177,9 @@ def contains(tweet: str, sub: str, symbol: str) -> bool:
     """
     
     return (symbol + sub + " ") in (clean(tweet) + " ")
-    
 
 
+# Helper Function
 def add_tag(tweet: str, tag: str, symbol: str) -> str:
     """
     Return tweet concatinated with a space, tag and symbol
@@ -199,7 +195,6 @@ def add_tag(tweet: str, tag: str, symbol: str) -> str:
         return tweet + " " + symbol + tag
     else:
         return tweet
-
 
 
 # A helper function.  Do not modify this function, but you are welcome
