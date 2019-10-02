@@ -71,7 +71,7 @@ def add_hashtag(tweet: str, tweet_word: str) -> str:
     """
 
     if(MAX_TWEET_LENGTH >= 14):
-        return tweet + " " + HASHTAG_SYMBOL + tweet_word
+        return add_tag(tweet, tweet_word, HASHTAG_SYMBOL)
     else:
         return tweet
 
@@ -107,7 +107,7 @@ def is_mentioned(tweet: str, mentioned: str) -> bool:
 
     >>> is_mentioned('Go @Raptors!', 'Raptors')
     True
-    >>> contains_hashtag('Good morning @Kevin', 'Kev')
+    >>> is_mentioned('Good morning @Kevin', 'Kev')
     False
     """
 
@@ -124,14 +124,14 @@ def add_mention_exclusive(tweet: str, mention: str) -> str:
     tweet is a valid tweet.
     mention is a valid tweet word.
 
-    >>> add_mention_exclusive("Go Raptors!", "Raptors)
+    >>> add_mention_exclusive("Go Raptors!", "Raptors")
     "Go Raptors! @Raptors"
     >>> add_mention_exclusive("Go @Raptors!")
     "Go @Raptors!"
     """
 
     if not is_mentioned(tweet, mention):
-        return tweet + " " + MENTION_SYMBOL + mention
+        return add_tag(tweet, mention, MENTION_SYMBOL)
     else:
         return tweet
 
@@ -167,23 +167,33 @@ def get_nth_tweet(tweet: str, tweet_num: int) -> str:
 
 
 # Helper Function
-def contains(tweet: str, sub: str, symbol: str) -> str:
+def contains(tweet: str, sub: str, symbol: str) -> bool:
     """
     Return tweet concatinated with symbol and sub 
     if symbol is not already in sub.
     Return tweet concatinated with sub otherwise.
 
-    >>> contains("Hello!", @Kevin, "@")
+    >>> contains("Hello!", "@Kevin", "@")
     "Hello! @Kevin"
-    >>> contains("Good morning!", Kevin, "@")
+    >>> contains("Good morning!", "Kevin", "@")
     "Good morning! @Kevin"
     """
     
-    if symbol in sub:
-        return (sub + " ") in (clean(tweet) + " ")
-    else:
-        return (symbol + sub + " ") in (clean(tweet) + " ")
+    return (symbol + sub + " ") in (clean(tweet) + " ")
     
+
+
+def add_tag(tweet: str, tag: str, symbol: str) -> str:
+    """
+    Return tweet concatinated with a space, tag and symbol
+
+    >>> add_tag("Hello!", "Kevin", "@")
+    "Hello! @Kevin"
+    >>> add_tag("Today is Friday!", "UTSC", "#")
+    "Today is Friday! #UTSC"
+    """
+    return tweet + " " + symbol + tag
+
 
 # A helper function.  Do not modify this function, but you are welcome
 # to call it.
